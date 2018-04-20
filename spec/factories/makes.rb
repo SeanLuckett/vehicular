@@ -1,5 +1,7 @@
 FactoryBot.define do
   factory :make do
-    name Faker::Company.unique.name
+    sequence :name do |n|
+      Faker::Company.unique.name + n.to_s
+    end
   end
 end
