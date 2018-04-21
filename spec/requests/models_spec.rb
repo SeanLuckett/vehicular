@@ -1,9 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe 'Models', type: :request do
+  after(:all) do
+    Model.destroy_all
+    Make.destroy_all
+  end
+
   describe 'POST /models' do
     let(:make) { create :make }
-    after(:all) { Model.destroy_all }
 
     it 'returns created status code' do
       post api_v1_make_models_path(make),
@@ -73,8 +77,6 @@ RSpec.describe 'Models', type: :request do
               params: { model: { name: new_name } }
       end
 
-      after(:all) { Model.destroy_all }
-
       it 'returns correct status code' do
         expect(response).to have_http_status '200'
       end
@@ -106,8 +108,6 @@ RSpec.describe 'Models', type: :request do
         patch api_v1_make_model_path(model.make, model)
       end
 
-      after { Model.destroy_all }
-
       it_behaves_like 'missing resource', Model
     end
   end
@@ -134,8 +134,6 @@ RSpec.describe 'Models', type: :request do
 
     before { get api_v1_make_model_path(model.make, model) }
 
-    after(:all) { Model.destroy_all }
-
     it 'returns ok status code' do
       expect(response).to have_http_status :ok
     end
@@ -152,8 +150,6 @@ RSpec.describe 'Models', type: :request do
 
         get api_v1_make_model_path(model.make, model)
       end
-
-      after { Model.destroy_all }
 
       it_behaves_like 'missing resource', Model
     end
@@ -179,8 +175,6 @@ RSpec.describe 'Models', type: :request do
 
         delete api_v1_make_model_path(deletable.make, deletable)
       end
-
-      after { Model.destroy_all }
 
       it_behaves_like 'missing resource', Model
     end

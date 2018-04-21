@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'Makes', type: :request do
+  after(:all) { Make.destroy_all }
+
   describe 'POST /makes' do
-    after(:all) { Make.destroy_all }
 
     it 'returns created status code' do
       post api_v1_makes_path, params: { make: attributes_for(:make) }
@@ -52,8 +53,6 @@ RSpec.describe 'Makes', type: :request do
         patch api_v1_make_path(make), params: { make: { name: new_name } }
       end
 
-      after(:all) { Make.destroy_all }
-
       it 'returns correct status code' do
         expect(response).to have_http_status '200'
       end
@@ -84,8 +83,6 @@ RSpec.describe 'Makes', type: :request do
         patch api_v1_make_path(make)
       end
 
-      after { Make.destroy_all }
-
       it_behaves_like 'missing resource', Make
     end
   end
@@ -111,8 +108,6 @@ RSpec.describe 'Makes', type: :request do
 
     before { get api_v1_make_path(make) }
 
-    after(:all) { Make.destroy_all }
-
     it 'returns ok status code' do
       expect(response).to have_http_status :ok
     end
@@ -129,8 +124,6 @@ RSpec.describe 'Makes', type: :request do
 
         get api_v1_make_path(make)
       end
-
-      after { Make.destroy_all }
 
       it_behaves_like 'missing resource', Make
     end
@@ -156,8 +149,6 @@ RSpec.describe 'Makes', type: :request do
 
         delete api_v1_make_path(deletable)
       end
-
-      after { Make.destroy_all }
 
       it_behaves_like 'missing resource', Make
     end
