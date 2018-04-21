@@ -1,7 +1,5 @@
 module Api::V1
   class MakesController < ApiController
-    ERROR_SERIALIZER = ActiveModel::Serializer::ErrorSerializer
-
     def index
       render json: Make.all, status: :ok
     end
@@ -11,7 +9,7 @@ module Api::V1
       render json: make, status: :ok
 
     rescue ActiveRecord::RecordNotFound
-      render_error_json
+      render_error_json Make
     end
 
     def create
@@ -32,7 +30,7 @@ module Api::V1
       end
 
     rescue ActiveRecord::RecordNotFound
-      render_error_json
+      render_error_json Make
     end
 
     def destroy
@@ -40,17 +38,10 @@ module Api::V1
       make.destroy
 
     rescue ActiveRecord::RecordNotFound
-      render_error_json
+      render_error_json Make
     end
 
     private
-
-    def render_error_json
-      missing_resource = Make.new
-      missing_resource.errors.add(:not_found, "Could not find #{Make.name.downcase} with that id")
-      render json: missing_resource,
-             status: :not_found, serializer: ERROR_SERIALIZER
-    end
 
     def make_params
       params.require(:make).permit :name
