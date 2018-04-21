@@ -1,7 +1,5 @@
 require 'rails_helper'
 
-require 'rails_helper'
-
 RSpec.describe 'Models', type: :request do
   describe 'POST /models' do
     let(:make) { create :make }
