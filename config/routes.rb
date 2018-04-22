@@ -4,6 +4,8 @@ Rails.application.routes.draw do
       resources :makes do
         resources :models
       end
+
+      resources :options
     end
   end
 end
