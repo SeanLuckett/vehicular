@@ -1,5 +1,17 @@
 module Api::V1
   class OptionsController < ApiController
+    def index
+      render json: Option.all, status: :ok
+    end
+
+    def show
+      option = Option.find params[:id]
+      render json: option, status: :ok
+
+    rescue ActiveRecord::RecordNotFound
+      render_error_json Option
+    end
+
     def create
       option = Option.new options_params
       if option.save

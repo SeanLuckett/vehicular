@@ -89,5 +89,47 @@ RSpec.describe 'Options', type: :request do
     end
   end
 
+  describe 'GET /options' do
+    before do
+      2.times { create :option }
+      get api_v1_options_path
+    end
+
+    it 'returns ok status code' do
+      expect(response).to have_http_status :ok
+    end
+
+    it 'gets list of options' do
+      list_json = json(response.body)['data']
+      expect(list_json.length).to eq Option.count
+    end
+  end
+
+  describe 'GET /option/:id' do
+    let(:option) { create :option }
+
+    before { get api_v1_option_path(option) }
+
+    it 'returns ok status code' do
+      expect(response).to have_http_status :ok
+    end
+
+    it 'returns the option' do
+      option_json = json(response.body)['data']
+      expect(option_json['id']).to eq option.id.to_s
+    end
+
+    context 'when option not found' do
+      before do
+        option = create :option
+        allow(Option).to receive(:find) { raise ActiveRecord::RecordNotFound }
+
+        get api_v1_option_path(option)
+      end
+
+      it_behaves_like 'missing resource', Option
+    end
+  end
+
 
 end
