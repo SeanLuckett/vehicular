@@ -13,7 +13,7 @@ module Api::V1
     end
 
     def create
-      option = Option.new options_params
+      option = Option.new option_params
       if option.save
         render json: option, status: :created
       else
@@ -28,6 +28,14 @@ module Api::V1
       else
         render json: option, status: 422, serializer: ERROR_SERIALIZER
       end
+
+    rescue ActiveRecord::RecordNotFound
+      render_error_json Option
+    end
+
+    def destroy
+      option = Option.find params[:id]
+      option.destroy
 
     rescue ActiveRecord::RecordNotFound
       render_error_json Option

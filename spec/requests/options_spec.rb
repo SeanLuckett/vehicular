@@ -131,5 +131,28 @@ RSpec.describe 'Options', type: :request do
     end
   end
 
+  describe 'DELETE /option/:id' do
+    let!(:deletable) { create :option }
 
+    it 'returns no content status' do
+      delete api_v1_option_path(deletable)
+      expect(response).to have_http_status :no_content
+    end
+
+    it 'only deletes option' do
+      expect {
+        delete api_v1_option_path(deletable)
+      }.to change(Option, :count).by(-1)
+    end
+
+    context 'when option not found' do
+      before do
+        allow(Option).to receive(:find) { raise ActiveRecord::RecordNotFound }
+
+        delete api_v1_option_path(deletable)
+      end
+
+      it_behaves_like 'missing resource', Option
+    end
+  end
 end
