@@ -44,6 +44,18 @@ module Api::V1
       render_error_json Model
     end
 
+    def add_option
+      model = Model.find params[:model_id]
+      option = Option.find params[:option_id]
+
+      model.options << option
+
+      render json: model, status: :ok
+
+    rescue ActiveRecord::RecordNotFound
+      render_error_json Option
+    end
+
     private
 
     def model_params
@@ -52,3 +64,17 @@ module Api::V1
   end
 
 end
+
+# def create
+#   model = Model.find params[:model_id]
+#   option = Option.find_or_create_by options_params
+#
+#   if model.options.find(option.id)
+#     render json: model, status: :not_modified
+#   else
+#     render json: option, status: 201
+#   end
+#
+# rescue ActiveRecord::RecordInvalid
+#   render json: option, status: 422, serializer: ERROR_SERIALIZER
+# end

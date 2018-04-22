@@ -6,6 +6,10 @@ Rails.application.routes.draw do
       end
 
       resources :options
+
+      resources :models, only: [] do
+        post '/add_option', to: 'models#add_option'
+      end
     end
   end
 end
