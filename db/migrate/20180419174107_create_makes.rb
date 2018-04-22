@@ -6,5 +6,7 @@ class CreateMakes < ActiveRecord::Migration[5.1]
 
       t.timestamps
     end
+
+    add_index :makes, :name, unique: true
   end
 end

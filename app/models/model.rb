@@ -1,7 +1,12 @@
 class Model < ApplicationRecord
   belongs_to :make
 
-  validates :name, uniqueness: { scope: :year }, presence: true
+  has_many :model_options, dependent: :destroy
+  has_many :options, through: :model_options
+
+  validates :name,
+            uniqueness: { scope: :year, case_sensitive: false },
+            presence: true
 
   validates :year,
             numericality: { only_integer: true },

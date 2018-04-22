@@ -9,7 +9,8 @@ RSpec.describe Model, type: :model do
 
   it 'is invalid if combination name and year exist' do
     existing = create :model
-    model = build :model, name: existing.name, year: existing.year
+    model = build :model,
+                  name: existing.name.downcase, year: existing.year
 
     model.valid?
     expect(model.errors[:name]).to include 'has already been taken'
