@@ -60,6 +60,20 @@ module Api::V1
                         "Model with id: #{model.id} already has this option."
     end
 
+    def remove_option
+      model = Model.find params[:model_id]
+      option = Option.find params[:option_id]
+
+      option_ids = model.option_ids
+      new_option_ids = option_ids.reject { |id| id == option.id }
+
+      model.option_ids = new_option_ids
+      render json: model, status: :ok
+
+    rescue ActiveRecord::RecordNotFound
+      render_error_json :not_found, 'Could not find option with that id'
+    end
+
     private
 
     def model_params
