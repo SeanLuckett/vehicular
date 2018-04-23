@@ -10,8 +10,8 @@ module Api::V1
     end
 
     def create
-      model = Make.find(params[:make_id])
-      model = model.models.build model_params
+      make = Make.find(params[:make_id])
+      model = make.models.build model_params
 
       if model.save
         json_response model, :created
