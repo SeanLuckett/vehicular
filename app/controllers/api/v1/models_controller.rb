@@ -1,12 +1,12 @@
 module Api::V1
   class ModelsController < ApiController
     def index
-      render json: Model.all, status: :ok
+      json_response Model.all
     end
 
     def show
       model = Model.find params[:id]
-      render json: model, status: :ok
+      json_response model
 
     rescue ActiveRecord::RecordNotFound
       render_error_json :not_found, 'Could not find model with that id'
@@ -17,7 +17,7 @@ module Api::V1
       model = model.models.build model_params
 
       if model.save
-        render json: model, status: :created
+        json_response model, :created
       else
         render json: model, status: 422, serializer: ERROR_SERIALIZER
       end
@@ -27,7 +27,7 @@ module Api::V1
       model = Model.find params[:id]
 
       if model.update(model_params)
-        render json: model, status: :ok
+        json_response model
       else
         render json: model, status: 422, serializer: ERROR_SERIALIZER
       end
@@ -52,7 +52,7 @@ module Api::V1
       new_ids = option_ids << option.id
       model.option_ids = new_ids.uniq
 
-      render json: model, status: :ok
+      json_response model
 
     rescue ActiveRecord::RecordNotFound
       render_error_json :not_found, 'Could not find option with that id'
@@ -66,7 +66,7 @@ module Api::V1
       new_option_ids = option_ids.reject { |id| id == option.id }
 
       model.option_ids = new_option_ids
-      render json: model, status: :ok
+      json_response model
 
     rescue ActiveRecord::RecordNotFound
       render_error_json :not_found, 'Could not find option with that id'

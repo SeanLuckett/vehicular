@@ -1,12 +1,12 @@
 module Api::V1
   class OptionsController < ApiController
     def index
-      render json: Option.all, status: :ok
+      json_response Option.all
     end
 
     def show
       option = Option.find params[:id]
-      render json: option, status: :ok
+      json_response option
 
     rescue ActiveRecord::RecordNotFound
       render_error_json :not_found, 'Could not find option with that id'
@@ -15,7 +15,7 @@ module Api::V1
     def create
       option = Option.new option_params
       if option.save
-        render json: option, status: :created
+        json_response option, :created
       else
         render json: option, status: 422, serializer: ERROR_SERIALIZER
       end
@@ -24,7 +24,7 @@ module Api::V1
     def update
       option = Option.find params[:id]
       if option.update(option_params)
-        render json: option, status: :ok
+        json_response option
       else
         render json: option, status: 422, serializer: ERROR_SERIALIZER
       end
@@ -36,7 +36,7 @@ module Api::V1
     def destroy
       option = Option.find params[:id]
       option.destroy
-
+      head :no_content
     rescue ActiveRecord::RecordNotFound
       render_error_json :not_found, 'Could not find option with that id'
     end

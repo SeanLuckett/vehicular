@@ -9,5 +9,9 @@ module Api::V1
       render json: resource,
              status: status, serializer: ERROR_SERIALIZER
     end
+
+    def json_response(resource, status = :ok)
+      render json: resource, status: status
+    end
   end
 end
