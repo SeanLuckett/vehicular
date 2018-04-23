@@ -16,7 +16,7 @@ RSpec.describe 'Add options to a model', type: :request do
       expect {
         post api_v1_model_add_option_path(model),
              params: { option_id: option.id }
-      }.to change(model.options, :count).from(0).to(1)
+      }.to change(model.options, :count).by(1)
     end
 
     it 'returns ok status' do
@@ -30,10 +30,10 @@ RSpec.describe 'Add options to a model', type: :request do
       post api_v1_model_add_option_path(model),
            params: { option_id: option.id }
 
-      option_json = json(response.body)['data']
+      model_json = json(response.body)['data']
 
-      expect(option_json['type']).to eq 'models'
-      expect(option_json['attributes']['name']).to eq model.name
+      expect(model_json['type']).to eq 'models'
+      expect(model_json['attributes']['name']).to eq model.name
     end
   end
 
@@ -53,18 +53,20 @@ RSpec.describe 'Add options to a model', type: :request do
 
     before do
       model.options << option
+    end
+
+    it 'does not change the options collection' do
+      expect {
+        post api_v1_model_add_option_path(model),
+           params: { option_id: option.id }
+      }.not_to change(model.options, :count)
+    end
+
+    it 'returns status ok' do
       post api_v1_model_add_option_path(model),
            params: { option_id: option.id }
-    end
 
-    it 'returns unprocessable entity status' do
-      expect(response).to have_http_status :unprocessable_entity
-    end
-
-    it 'returns proper error response' do
-      error_json = json(response.body)['errors']
-      expect(error_json.first['detail'])
-        .to eq "Model with id: #{model.id} already has this option."
+      expect(response).to have_http_status :ok
     end
   end
 end

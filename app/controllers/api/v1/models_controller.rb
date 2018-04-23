@@ -48,16 +48,14 @@ module Api::V1
       model = Model.find params[:model_id]
       option = Option.find params[:option_id]
 
-      model.options << option
+      option_ids = model.option_ids
+      new_ids = option_ids << option.id
+      model.option_ids = new_ids.uniq
 
       render json: model, status: :ok
 
     rescue ActiveRecord::RecordNotFound
       render_error_json :not_found, 'Could not find option with that id'
-
-    rescue ActiveRecord::RecordInvalid
-      render_error_json :unprocessable_entity,
-                        "Model with id: #{model.id} already has this option."
     end
 
     def remove_option
