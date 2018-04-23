@@ -9,7 +9,7 @@ module Api::V1
       render json: option, status: :ok
 
     rescue ActiveRecord::RecordNotFound
-      render_error_json Option
+      render_error_json :not_found, 'Could not find option with that id'
     end
 
     def create
@@ -30,7 +30,7 @@ module Api::V1
       end
 
     rescue ActiveRecord::RecordNotFound
-      render_error_json Option
+      render_error_json :not_found, 'Could not find option with that id'
     end
 
     def destroy
@@ -38,7 +38,7 @@ module Api::V1
       option.destroy
 
     rescue ActiveRecord::RecordNotFound
-      render_error_json Option
+      render_error_json :not_found, 'Could not find option with that id'
     end
 
     private

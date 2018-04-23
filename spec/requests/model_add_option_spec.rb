@@ -47,4 +47,24 @@ RSpec.describe 'Add options to a model', type: :request do
 
     it_behaves_like 'missing resource', Option
   end
+
+  context 'when model already has option' do
+    let(:option) { create :option }
+
+    before do
+      model.options << option
+      post api_v1_model_add_option_path(model),
+           params: { option_id: option.id }
+    end
+
+    it 'returns unprocessable entity status' do
+      expect(response).to have_http_status :unprocessable_entity
+    end
+
+    it 'returns proper error response' do
+      error_json = json(response.body)['errors']
+      expect(error_json.first['detail'])
+        .to eq "Model with id: #{model.id} already has this option."
+    end
+  end
 end

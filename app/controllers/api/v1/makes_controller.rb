@@ -9,7 +9,7 @@ module Api::V1
       render json: make, status: :ok
 
     rescue ActiveRecord::RecordNotFound
-      render_error_json Make
+      render_error_json :not_found, 'Could not find make with that id'
     end
 
     def create
@@ -30,7 +30,7 @@ module Api::V1
       end
 
     rescue ActiveRecord::RecordNotFound
-      render_error_json Make
+      render_error_json :not_found, 'Could not find make with that id'
     end
 
     def destroy
@@ -38,7 +38,7 @@ module Api::V1
       make.destroy
 
     rescue ActiveRecord::RecordNotFound
-      render_error_json Make
+      render_error_json :not_found, 'Could not find make with that id'
     end
 
     private

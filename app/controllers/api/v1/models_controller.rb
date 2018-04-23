@@ -9,7 +9,7 @@ module Api::V1
       render json: model, status: :ok
 
     rescue ActiveRecord::RecordNotFound
-      render_error_json Model
+      render_error_json :not_found, 'Could not find model with that id'
     end
 
     def create
@@ -33,7 +33,7 @@ module Api::V1
       end
 
     rescue ActiveRecord::RecordNotFound
-      render_error_json Model
+      render_error_json :not_found, 'Could not find model with that id'
     end
 
     def destroy
@@ -41,7 +41,7 @@ module Api::V1
       model.destroy
 
     rescue ActiveRecord::RecordNotFound
-      render_error_json Model
+      render_error_json :not_found, 'Could not find model with that id'
     end
 
     def add_option
@@ -53,7 +53,11 @@ module Api::V1
       render json: model, status: :ok
 
     rescue ActiveRecord::RecordNotFound
-      render_error_json Option
+      render_error_json :not_found, 'Could not find option with that id'
+
+    rescue ActiveRecord::RecordInvalid
+      render_error_json :unprocessable_entity,
+                        "Model with id: #{model.id} already has this option."
     end
 
     private
@@ -64,17 +68,3 @@ module Api::V1
   end
 
 end
-
-# def create
-#   model = Model.find params[:model_id]
-#   option = Option.find_or_create_by options_params
-#
-#   if model.options.find(option.id)
-#     render json: model, status: :not_modified
-#   else
-#     render json: option, status: 201
-#   end
-#
-# rescue ActiveRecord::RecordInvalid
-#   render json: option, status: 422, serializer: ERROR_SERIALIZER
-# end
