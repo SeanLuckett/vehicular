@@ -7,9 +7,6 @@ module Api::V1
     def show
       model = Model.find params[:id]
       json_response model
-
-    rescue ActiveRecord::RecordNotFound
-      render_error_json :not_found, 'Could not find model with that id'
     end
 
     def create
@@ -31,17 +28,11 @@ module Api::V1
       else
         render json: model, status: 422, serializer: ERROR_SERIALIZER
       end
-
-    rescue ActiveRecord::RecordNotFound
-      render_error_json :not_found, 'Could not find model with that id'
     end
 
     def destroy
       model = Model.find params[:id]
       model.destroy
-
-    rescue ActiveRecord::RecordNotFound
-      render_error_json :not_found, 'Could not find model with that id'
     end
 
     def add_option
@@ -53,9 +44,6 @@ module Api::V1
       model.option_ids = new_ids.uniq
 
       json_response model
-
-    rescue ActiveRecord::RecordNotFound
-      render_error_json :not_found, 'Could not find option with that id'
     end
 
     def remove_option
@@ -67,9 +55,6 @@ module Api::V1
 
       model.option_ids = new_option_ids
       json_response model
-
-    rescue ActiveRecord::RecordNotFound
-      render_error_json :not_found, 'Could not find option with that id'
     end
 
     private

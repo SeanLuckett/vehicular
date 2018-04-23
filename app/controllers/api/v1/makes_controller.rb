@@ -7,9 +7,6 @@ module Api::V1
     def show
       make = Make.find params[:id]
       json_response make
-
-    rescue ActiveRecord::RecordNotFound
-      render_error_json :not_found, 'Could not find make with that id'
     end
 
     def create
@@ -29,16 +26,12 @@ module Api::V1
         render json: make, status: 422, serializer: ERROR_SERIALIZER
       end
 
-    rescue ActiveRecord::RecordNotFound
-      render_error_json :not_found, 'Could not find make with that id'
     end
 
     def destroy
       make = Make.find params[:id]
       make.destroy
       head :no_content
-    rescue ActiveRecord::RecordNotFound
-      render_error_json :not_found, 'Could not find make with that id'
     end
 
     private

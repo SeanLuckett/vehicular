@@ -2,7 +2,7 @@ module Api::V1
   class ApiController < ApplicationController
     ERROR_SERIALIZER = ActiveModel::Serializer::ErrorSerializer
 
-    def render_error_json(status, error_msg)
+    def render_error_json(error_msg, status = :not_found)
       resource = NullResource.new
       resource.errors.add(status, error_msg)
 
@@ -12,6 +12,10 @@ module Api::V1
 
     def json_response(resource, status = :ok)
       render json: resource, status: status
+    end
+
+    rescue_from ActiveRecord::RecordNotFound do |e|
+      render_error_json "Could not find #{e.model.downcase} with id #{e.id}"
     end
   end
 end

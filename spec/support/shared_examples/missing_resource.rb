@@ -6,6 +6,6 @@ RSpec.shared_examples 'missing resource' do |klass|
   it 'returns an error message' do
     error_json = json(response.body)['errors']
     expect(error_json.first['detail'])
-      .to eq "Could not find #{klass.name.downcase} with that id"
+      .to eq "Could not find #{klass.name.downcase} with id #{id}"
   end
 end

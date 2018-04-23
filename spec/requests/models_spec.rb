@@ -96,14 +96,16 @@ RSpec.describe 'Models', type: :request do
     end
 
     context 'when model not found' do
-      before do
-        allow(Model).to receive(:find) { raise ActiveRecord::RecordNotFound }
+      let(:missing_id) { 404 }
 
-        model = create :model
-        patch api_v1_make_model_path(model.make, model)
+      before do
+        make = create :make
+        patch api_v1_make_model_path(make, missing_id)
       end
 
-      it_behaves_like 'missing resource', Model
+      it_behaves_like 'missing resource', Model do
+        let(:id) { missing_id }
+      end
     end
   end
 
@@ -139,14 +141,16 @@ RSpec.describe 'Models', type: :request do
     end
 
     context 'when model not found' do
-      before do
-        model = create :model
-        allow(Model).to receive(:find) { raise ActiveRecord::RecordNotFound }
+      let(:missing_id) { 404 }
 
-        get api_v1_make_model_path(model.make, model)
+      before do
+        make = create :make
+        get api_v1_make_model_path(make, missing_id)
       end
 
-      it_behaves_like 'missing resource', Model
+      it_behaves_like 'missing resource', Model do
+        let(:id) { missing_id }
+      end
     end
   end
 
@@ -165,13 +169,17 @@ RSpec.describe 'Models', type: :request do
     end
 
     context 'when model not found' do
-      before do
-        allow(Model).to receive(:find) { raise ActiveRecord::RecordNotFound }
+      let(:missing_id) { 404 }
 
-        delete api_v1_make_model_path(deletable.make, deletable)
+      before do
+        make = create :make
+
+        delete api_v1_make_model_path(make, missing_id)
       end
 
-      it_behaves_like 'missing resource', Model
+      it_behaves_like 'missing resource', Model do
+        let(:id) { missing_id }
+      end
     end
   end
 end

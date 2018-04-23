@@ -74,13 +74,12 @@ RSpec.describe 'Makes', type: :request do
     end
 
     context 'when make not found' do
-      before do
-        allow(Make).to receive(:find) { raise ActiveRecord::RecordNotFound }
-        make = create :make
-        patch api_v1_make_path(make)
-      end
+      let(:missing_id) { 404 }
+      before { patch api_v1_make_path(missing_id) }
 
-      it_behaves_like 'missing resource', Make
+      it_behaves_like 'missing resource', Make do
+        let(:id) { missing_id }
+      end
     end
   end
 
@@ -115,14 +114,12 @@ RSpec.describe 'Makes', type: :request do
     end
 
     context 'when make not found' do
-      before do
-        make = create :make
-        allow(Make).to receive(:find) { raise ActiveRecord::RecordNotFound }
+      let(:missing_id) { 404 }
+      before { get api_v1_make_path(missing_id) }
 
-        get api_v1_make_path(make)
+      it_behaves_like 'missing resource', Make do
+        let(:id) { missing_id }
       end
-
-      it_behaves_like 'missing resource', Make
     end
   end
 
@@ -141,13 +138,12 @@ RSpec.describe 'Makes', type: :request do
     end
 
     context 'when make not found' do
-      before do
-        allow(Make).to receive(:find) { raise ActiveRecord::RecordNotFound }
+      let(:missing_id) { 404 }
+      before { delete api_v1_make_path(missing_id) }
 
-        delete api_v1_make_path(deletable)
+      it_behaves_like 'missing resource', Make do
+        let(:id) { 404 }
       end
-
-      it_behaves_like 'missing resource', Make
     end
   end
 end

@@ -45,7 +45,7 @@ RSpec.describe 'Add options to a model', type: :request do
     it 'does not change the options collection' do
       expect {
         post api_v1_model_remove_option_path(model),
-           params: { option_id: option.id }
+             params: { option_id: option.id }
       }.not_to change(model.options, :count)
     end
 
@@ -66,6 +66,8 @@ RSpec.describe 'Add options to a model', type: :request do
            params: { option_id: missing_id }
     end
 
-    it_behaves_like 'missing resource', Option
+    it_behaves_like 'missing resource', Option do
+      let(:id) { missing_id }
+    end
   end
 end

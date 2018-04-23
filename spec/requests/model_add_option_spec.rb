@@ -39,7 +39,9 @@ RSpec.describe 'Add options to a model', type: :request do
            params: { option_id: missing_id }
     end
 
-    it_behaves_like 'missing resource', Option
+    it_behaves_like 'missing resource', Option do
+      let!(:id) { missing_id }
+    end
   end
 
   context 'when model already has option' do

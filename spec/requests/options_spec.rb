@@ -77,13 +77,14 @@ RSpec.describe 'Options', type: :request do
     end
 
     context 'when option not found' do
+      let(:missing_id) { 404 }
       before do
-        allow(Option).to receive(:find) { raise ActiveRecord::RecordNotFound }
-        option = create :option
-        patch api_v1_option_path(option)
+        patch api_v1_option_path(missing_id)
       end
 
-      it_behaves_like 'missing resource', Option
+      it_behaves_like 'missing resource', Option do
+        let(:id) { missing_id }
+      end
     end
   end
 
@@ -118,14 +119,15 @@ RSpec.describe 'Options', type: :request do
     end
 
     context 'when option not found' do
-      before do
-        option = create :option
-        allow(Option).to receive(:find) { raise ActiveRecord::RecordNotFound }
+      let(:missing_id) { 404 }
 
-        get api_v1_option_path(option)
+      before do
+        get api_v1_option_path(missing_id)
       end
 
-      it_behaves_like 'missing resource', Option
+      it_behaves_like 'missing resource', Option do
+        let(:id) { missing_id }
+      end
     end
   end
 
@@ -144,13 +146,12 @@ RSpec.describe 'Options', type: :request do
     end
 
     context 'when option not found' do
-      before do
-        allow(Option).to receive(:find) { raise ActiveRecord::RecordNotFound }
+      let(:missing_id) { 404 }
+      before { delete api_v1_option_path(missing_id) }
 
-        delete api_v1_option_path(deletable)
+      it_behaves_like 'missing resource', Option do
+        let(:id) { missing_id }
       end
-
-      it_behaves_like 'missing resource', Option
     end
   end
 end

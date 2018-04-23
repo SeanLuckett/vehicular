@@ -7,9 +7,6 @@ module Api::V1
     def show
       option = Option.find params[:id]
       json_response option
-
-    rescue ActiveRecord::RecordNotFound
-      render_error_json :not_found, 'Could not find option with that id'
     end
 
     def create
@@ -29,16 +26,12 @@ module Api::V1
         render json: option, status: 422, serializer: ERROR_SERIALIZER
       end
 
-    rescue ActiveRecord::RecordNotFound
-      render_error_json :not_found, 'Could not find option with that id'
     end
 
     def destroy
       option = Option.find params[:id]
       option.destroy
       head :no_content
-    rescue ActiveRecord::RecordNotFound
-      render_error_json :not_found, 'Could not find option with that id'
     end
 
     private
