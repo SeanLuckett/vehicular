@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180421154206) do
+ActiveRecord::Schema.define(version: 20180421231504) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,15 @@ ActiveRecord::Schema.define(version: 20180421154206) do
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_makes_on_name", unique: true
+  end
+
+  create_table "model_options", force: :cascade do |t|
+    t.integer "model_id"
+    t.integer "option_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["model_id", "option_id"], name: "index_model_options_on_model_id_and_option_id", unique: true
   end
 
   create_table "models", force: :cascade do |t|
@@ -30,6 +39,13 @@ ActiveRecord::Schema.define(version: 20180421154206) do
     t.datetime "updated_at", null: false
     t.index ["make_id"], name: "index_models_on_make_id"
     t.index ["name", "year"], name: "index_models_on_name_and_year", unique: true
+  end
+
+  create_table "options", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_options_on_name", unique: true
   end
 
   add_foreign_key "models", "makes"

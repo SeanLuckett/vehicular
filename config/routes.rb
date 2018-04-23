@@ -4,6 +4,13 @@ Rails.application.routes.draw do
       resources :makes do
         resources :models
       end
+
+      resources :options
+
+      resources :models, only: [] do
+        post '/add_option', to: 'models#add_option'
+        post '/remove_option', to: 'models#remove_option'
+      end
     end
   end
 end

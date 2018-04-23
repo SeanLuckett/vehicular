@@ -1,12 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Models', type: :request do
-  after(:all) do
-    Model.destroy_all
-    Make.destroy_all
-  end
-
-  describe 'POST /models' do
+  describe 'POST /makes/:make_id/models' do
     let(:make) { create :make }
 
     it 'returns created status code' do
@@ -67,7 +62,7 @@ RSpec.describe 'Models', type: :request do
     end
   end
 
-  describe 'PATCH /models/:id' do
+  describe 'PATCH /makes/make_id/models/:id' do
     context 'when changing attribute' do
       let(:model) { create :model }
       let(:new_name) { 'Prius' }
@@ -112,7 +107,7 @@ RSpec.describe 'Models', type: :request do
     end
   end
 
-  describe 'GET /models' do
+  describe 'GET /makes/:make_id/models' do
     before do
       make = create :make
       2.times { create :model, make_id: make.id }
@@ -129,7 +124,7 @@ RSpec.describe 'Models', type: :request do
     end
   end
 
-  describe 'GET /model/:id' do
+  describe 'GET /makes/:make_id/model/:id' do
     let(:model) { create :model }
 
     before { get api_v1_make_model_path(model.make, model) }
@@ -155,7 +150,7 @@ RSpec.describe 'Models', type: :request do
     end
   end
 
-  describe 'DELETE /model/:id' do
+  describe 'DELETE /makes/:make_id/model/:id' do
     let!(:deletable) { create :model }
 
     it 'returns no content status' do
