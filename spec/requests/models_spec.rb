@@ -110,8 +110,10 @@ RSpec.describe 'Models', type: :request do
   end
 
   describe 'GET /makes/:make_id/models' do
+    let(:make) { create :make }
+
     before do
-      make = create :make
+      create :model
       2.times { create :model, make_id: make.id }
       get api_v1_make_models_path(make)
     end
@@ -122,7 +124,7 @@ RSpec.describe 'Models', type: :request do
 
     it 'gets list of models' do
       list_json = json(response.body)['data']
-      expect(list_json.length).to eq Model.count
+      expect(list_json.length).to eq make.models.count
     end
   end
 
@@ -165,7 +167,7 @@ RSpec.describe 'Models', type: :request do
     it 'only deletes model' do
       expect {
         delete api_v1_make_model_path(deletable.make, deletable)
-      }.to change(Model, :count).by(-1)
+      }.to change(deletable.make.models, :count).by(-1)
     end
 
     context 'when model not found' do

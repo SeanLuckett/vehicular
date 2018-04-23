@@ -1,7 +1,8 @@
 module Api::V1
   class ModelsController < ApiController
     def index
-      json_response Model.all
+      make = Make.find(params[:make_id])
+      json_response make.models
     end
 
     def show
