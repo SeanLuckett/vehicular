@@ -1,11 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Models', type: :request do
-  after(:all) do
-    Model.destroy_all
-    Make.destroy_all
-  end
-
   describe 'POST /makes/:make_id/models' do
     let(:make) { create :make }
 

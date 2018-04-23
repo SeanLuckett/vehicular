@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Options', type: :request do
-  after(:all) { Option.destroy_all }
-
   describe 'POST /options' do
 
     it 'returns created status code' do

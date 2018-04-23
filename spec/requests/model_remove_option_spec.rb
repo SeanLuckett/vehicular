@@ -1,13 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Add options to a model', type: :request do
-  after(:all) do
-    Make.destroy_all
-    Model.destroy_all
-    Option.destroy_all
-  end
-
-
   context 'option association exists' do
     let!(:model) { create :model_with_option }
     let(:option) { model.options.first }
@@ -66,7 +59,7 @@ RSpec.describe 'Add options to a model', type: :request do
 
   context 'when an option does not exist' do
     let(:model) { create :model }
-    let(:missing_id) { 1404 }
+    let(:missing_id) { 404 }
 
     before do
       post api_v1_model_remove_option_path(model),

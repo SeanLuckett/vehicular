@@ -1,12 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Add options to a model', type: :request do
-  after(:all) do
-    Make.destroy_all
-    Model.destroy_all
-    Option.destroy_all
-  end
-
   let(:model) { create :model }
 
   context 'option exists' do
@@ -58,7 +52,7 @@ RSpec.describe 'Add options to a model', type: :request do
     it 'does not change the options collection' do
       expect {
         post api_v1_model_add_option_path(model),
-           params: { option_id: option.id }
+             params: { option_id: option.id }
       }.not_to change(model.options, :count)
     end
 

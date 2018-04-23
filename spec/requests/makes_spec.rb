@@ -1,10 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Makes', type: :request do
-  after(:all) { Make.destroy_all }
-
   describe 'POST /makes' do
-
     it 'returns created status code' do
       post api_v1_makes_path, params: { make: attributes_for(:make) }
       expect(response).to have_http_status '201'
