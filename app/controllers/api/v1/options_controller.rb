@@ -14,7 +14,7 @@ module Api::V1
       if option.save
         json_response option, :created
       else
-        render json: option, status: 422, serializer: ERROR_SERIALIZER
+        error_json option
       end
     end
 
@@ -23,7 +23,7 @@ module Api::V1
       if option.update(option_params)
         json_response option
       else
-        render json: option, status: 422, serializer: ERROR_SERIALIZER
+        error_json option
       end
 
     end

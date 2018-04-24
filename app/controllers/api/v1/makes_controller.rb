@@ -14,7 +14,7 @@ module Api::V1
       if make.save
         json_response make, :created
       else
-        render json: make, status: 422, serializer: ERROR_SERIALIZER
+        error_json make
       end
     end
 
@@ -23,7 +23,7 @@ module Api::V1
       if make.update(make_params)
         json_response make
       else
-        render json: make, status: 422, serializer: ERROR_SERIALIZER
+        error_json make
       end
 
     end

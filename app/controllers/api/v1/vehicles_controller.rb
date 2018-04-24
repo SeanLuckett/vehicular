@@ -39,8 +39,11 @@ module Api::V1
       if option_handler.add_option!
         json_response vehicle
       else
-        render_error_json 'Option unavailable on that make and model',
-                          :unprocessable_entity
+        vehicle
+          .errors
+          .add(:model_options, 'Option unavailable on that make and model')
+
+        error_json vehicle
       end
     end
 

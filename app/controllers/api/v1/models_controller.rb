@@ -17,7 +17,7 @@ module Api::V1
       if model.save
         json_response model, :created
       else
-        render json: model, status: 422, serializer: ERROR_SERIALIZER
+        error_json model
       end
     end
 
@@ -27,7 +27,7 @@ module Api::V1
       if model.update(model_params)
         json_response model
       else
-        render json: model, status: 422, serializer: ERROR_SERIALIZER
+        error_json model
       end
     end
 
