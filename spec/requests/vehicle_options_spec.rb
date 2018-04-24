@@ -56,7 +56,7 @@ RSpec.describe 'VehicleOptions', type: :request do
 
         error_json = json(response.body)['errors']
         expect(error_json.first['detail'])
-          .to eq 'Option unvailable on that make and model'
+          .to eq 'Option unavailable on that make and model'
       end
     end
 
