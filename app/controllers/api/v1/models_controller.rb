@@ -38,10 +38,9 @@ module Api::V1
 
     def add_option
       model = Model.find params[:model_id]
-      option_id = params[:option_id]
 
-      unless model.options.exists? option_id
-        model.options << Option.find(option_id)
+      unless model.options.exists? params[:option_id]
+        model.options << Option.find(params[:option_id])
       end
 
       json_response model
