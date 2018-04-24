@@ -32,6 +32,33 @@ module Api::V1
       vehicle.destroy
     end
 
+    def add_option
+      vehicle = Vehicle.find params[:vehicle_id]
+      option_id = params[:option_id]
+
+      if vehicle.model.options.exists? option_id
+
+        if !vehicle.options.exists? option_id
+          vehicle.options << Option.find(option_id)
+        end
+
+        json_response vehicle
+      else
+        render_error_json 'Option unvailable on that make and model',
+                          :unprocessable_entity
+      end
+    end
+
+    def remove_option
+      vehicle = Vehicle.find params[:vehicle_id]
+
+      if vehicle.options.exists? params[:option_id]
+        vehicle.options.destroy params[:option_id]
+      end
+
+      json_response vehicle
+    end
+
     private
 
     def vehicle_params

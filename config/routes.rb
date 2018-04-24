@@ -11,7 +11,10 @@ Rails.application.routes.draw do
         post '/add_option', to: 'models#add_option'
         post '/remove_option', to: 'models#remove_option'
 
-        resources :vehicles, shallow: true
+        resources :vehicles, shallow: true do
+          post '/add_option', to: 'vehicles#add_option'
+          post '/remove_option', to: 'vehicles#remove_option'
+        end
       end
     end
   end

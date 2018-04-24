@@ -12,5 +12,11 @@ FactoryBot.define do
         model.options << create(:option)
       end
     end
+
+    factory :model_with_options do
+      after(:create) do |model|
+        2.times { model.options << create(:option) }
+      end
+    end
   end
 end
