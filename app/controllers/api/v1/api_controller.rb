@@ -10,8 +10,8 @@ module Api::V1
              status: status, serializer: ERROR_SERIALIZER
     end
 
-    def json_response(resource, status = :ok)
-      render json: resource, status: status
+    def json_response(resource, status = :ok, included = [])
+      render json: resource, include: included, status: status
     end
 
     rescue_from ActiveRecord::RecordNotFound do |e|
