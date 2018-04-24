@@ -38,23 +38,22 @@ module Api::V1
 
     def add_option
       model = Model.find params[:model_id]
-      option = Option.find params[:option_id]
+      option_id = params[:option_id]
 
-      option_ids = model.option_ids
-      new_ids = option_ids << option.id
-      model.option_ids = new_ids.uniq
+      unless model.options.exists? option_id
+        model.options << Option.find(option_id)
+      end
 
       json_response model
     end
 
     def remove_option
       model = Model.find params[:model_id]
-      option = Option.find params[:option_id]
 
-      option_ids = model.option_ids
-      new_option_ids = option_ids.reject { |id| id == option.id }
+      if model.options.exists? params[:option_id]
+        model.options.destroy params[:option_id]
+      end
 
-      model.option_ids = new_option_ids
       json_response model
     end
 
