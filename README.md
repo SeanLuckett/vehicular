@@ -4,6 +4,9 @@ This project is a basic API for the vehicle listing domain.
 
 [API Documentation](https://documenter.getpostman.com/view/3168081/RW1YofVg)
 
+# Domain model
+![Relational diagram](/db/diagrams/vehicular_eerd.png?raw=true "Relational Diagram")
+
 ## Technical Trade-offs
 * **Deep url structure:** (/make/models/:id instead of /make/models/?id=). This
 is easier to navigate in a browser, but harder for some front-end libraries to
