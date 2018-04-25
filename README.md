@@ -2,7 +2,7 @@
 
 This project is a basic API for the vehicle listing domain.
 
-[API Documentation](https://documenter.getpostman.com/view/3168081/RW1YofVg)
+[API documentation](https://documenter.getpostman.com/view/3168081/RW1YofVg)
 
 # Domain model
 ![Relational diagram](/db/diagrams/vehicular_eerd.png?raw=true "Relational Diagram")
@@ -44,3 +44,4 @@ Following, are things to add:
 * Logging
 * SSL (should return error if not using https)
 * JSON API relationship links for easier negotiation
+* Endpoint queries for easier data retrieval (i.e. /makes/1/models/?name="Civic"&year="2010")
