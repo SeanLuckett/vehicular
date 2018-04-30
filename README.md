@@ -43,5 +43,5 @@ Following, are things to add:
 * Rate limiting
 * Logging
 * SSL (should return error if not using https)
-* JSON API relationship links for easier negotiation
+* [JSON API relationship links](https://github.com/rails-api/active_model_serializers/blob/v0.10.6/docs/howto/add_relationship_links.md) for easier negotiation
 * Endpoint queries for easier data retrieval (i.e. /makes/1/models/?name="Civic"&year="2010")
